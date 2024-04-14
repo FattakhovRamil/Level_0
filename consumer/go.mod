@@ -1,5 +1,5 @@
-module main
+module consumer
 
-go 1.21.1
+go 1.21.6
 
 require github.com/lib/pq v1.10.9

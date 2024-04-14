@@ -1,8 +1,8 @@
 package main
 
 import (
-	"consumer/consume/db_connection"
-	"consumer/consume/memcache"
+	db_connection "consumer/db_connection"
+	memcache "consumer/memcache"
 	//nats_streaming_connect "Consume/nats_streaming_connect"
 	"log"
 	"os"

@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	 "Consumerconsume/order_struct"
+	. "consumer/order_struct"
 
 	_ "github.com/lib/pq"
 )
@@ -159,7 +159,7 @@ func (c *Cache) Input(db *sql.DB) error {
 		if err != nil {
 			panic(err)
 		}
-		var delivery order_struct.Delivery
+		var delivery Delivery
 
 		err = db.QueryRow("SELECT name, phone, zip, city, address, region, email FROM delivery WHERE order_id = $1", id_order).Scan(
 			&delivery.Name,
