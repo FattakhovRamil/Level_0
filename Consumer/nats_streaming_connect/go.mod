@@ -4,11 +4,11 @@ go 1.21.1
 
 require (
 	Consume/memcache v0.0.0-00010101000000-000000000000
+	Consume/order_struct v0.0.0-00010101000000-000000000000
 	github.com/nats-io/nats.go v1.34.1
 )
 
 require (
-	Consume/order_struct v0.0.0-00010101000000-000000000000 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/nats-io/nkeys v0.4.7 // indirect

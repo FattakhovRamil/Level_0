@@ -10,7 +10,7 @@ import (
 	"time"
 
 	memcache "Consume/memcache"
-	
+	. "Consume/order_struct"
 	"github.com/nats-io/nats.go"
 )
 
