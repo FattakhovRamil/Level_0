@@ -3,7 +3,8 @@ package main
 import (
 	db_connection "consumer/db_connection"
 	memcache "consumer/memcache"
-	//nats_streaming_connect "Consume/nats_streaming_connect"
+	nats_streaming_connect "consumer/nats_streaming_connect"
+	server "consumer/server"
 	"log"
 	"os"
 	"os/signal"
@@ -25,13 +26,13 @@ func main() {
 	cache.Input(db)
 
 	// 3) Подключение к NATS Streaming серверу
-	// nats_streaming_connect.connectingNats(db, cache)
+	go nats_streaming_connect.СonnectingNats(db, cache)
 
 	log.Println("Consumer запущен. Ожидание сообщений...")
 
 	// 4) Запуск сервера
 
-	// server.serverStart(cache)
+	server.ServerStart(cache)
 
 	// Ожидание сигнала для завершения работы приложения
 	signalCh := make(chan os.Signal, 1)

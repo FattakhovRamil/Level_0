@@ -1,28 +1,31 @@
 package nats_streaming_connect
 
 import (
-	
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
+
 	// "strconv"
 	"time"
 
-	memcache "Consume/memcache"
-	. "Consume/order_struct"
+	memcache "consumer/memcache"
+	. "consumer/order_struct"
+
 	"github.com/nats-io/nats.go"
 )
 
-func connectingNats(db *sql.DB, c *memcache.Cache)  {
-	// Установка соединения с сервером NATS Streaming
+func СonnectingNats(db *sql.DB, c *memcache.Cache) {
+	fmt.Println("Установка соединения с сервером NATS Streaming")
 	nc, err := nats.Connect(nats.DefaultURL)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer nc.Close()
+	fmt.Println("Установка соединения с сервером NATS Streaming - успешно")
 	var order Order
 	subscription, err := nc.Subscribe("test.subject", func(msg *nats.Msg) {
+		fmt.Println("Установка соединения с сервером NATS Streaming - успешно")
 		log.Printf("Получено сообщение: %s", string(msg.Data))
 
 		err = json.Unmarshal(msg.Data, &order)
@@ -42,7 +45,7 @@ func connectingNats(db *sql.DB, c *memcache.Cache)  {
 		log.Fatal(err)
 	}
 	defer subscription.Unsubscribe()
-	go printCachePeriodically(c, time.Second*2)
+	//go printCachePeriodically(c, time.Second*15)
 }
 
 func InsertOrder(db *sql.DB, order Order, c *memcache.Cache) error {
@@ -73,7 +76,7 @@ func InsertOrder(db *sql.DB, order Order, c *memcache.Cache) error {
 	if err != nil {
 		return err
 	}
-	
+
 	// Вставка данных в таблицу delivery
 	_, err = tx.Exec(`
 		INSERT INTO delivery (order_id, name, phone, zip, city, address, region, email) 

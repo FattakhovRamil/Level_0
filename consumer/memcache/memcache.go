@@ -176,7 +176,7 @@ func (c *Cache) Input(db *sql.DB) error {
 		order.Delivery = delivery
 		var payment Payment
 
-		err = db.QueryRow("SELECT transaction, request_id, currency, provider, amount, payment_dt, bank, delivery_cost, goods_total, custom_fee FROM delivery WHERE order_id = $1", id_order).Scan(
+		err = db.QueryRow("SELECT transaction, request_id, currency, provider, amount, payment_dt, bank, delivery_cost, goods_total, custom_fee FROM payment WHERE order_id = $1", id_order).Scan(
 			&payment.Transaction,
 			&payment.RequestID,
 			&payment.Currency,
@@ -194,7 +194,7 @@ func (c *Cache) Input(db *sql.DB) error {
 
 		order.Payment = payment
 
-		rows_item, err := db.Query("SELECT chrt_id, track_number, price,rid,  name,sale,size,total_price, nm_id, brand, status    FROM items WHERE order_id = $1", id_order)
+		rows_item, err := db.Query("SELECT chrt_id, track_number, price,rid,  name,sale,size,total_price, nm_id, brand, status FROM items WHERE order_id = $1", id_order)
 		if err != nil {
 			panic(err)
 		}
@@ -228,12 +228,12 @@ func (c *Cache) Input(db *sql.DB) error {
 	}
 
 	// Проверка наличия данных в кеше
-	value, found := c.Get("data_1")
-	if found {
-		fmt.Println("Value found in cache:", value)
-	} else {
-		fmt.Println("Value not found in cache")
-	}
+	// value, found := c.Get("data_1")
+	// if found {
+	// 	fmt.Println("Value found in cache:", value)
+	// } else {
+	// 	fmt.Println("Value not found in cache")
+	// }
 	return nil
 }
 

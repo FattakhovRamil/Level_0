@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	//"fmt"
 	"net/http"
-
+	memcache "consumer/memcache"
 )
 
-func serverStart(c *Cache) {
+func ServerStart(c *memcache.Cache) {
 	// database, err := sql.Open("sqlite3", "./gopher.db")
 	// if err != nil {
 	// 	fmt.Println("Error opening database:", err)

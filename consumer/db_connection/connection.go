@@ -20,7 +20,7 @@ type Config struct {
 
 
 func DBConnect() (*sql.DB, error) {
-	configFile, err := os.Open("config.json")
+	configFile, err := os.Open("/opt/goinfre/shilatof/Level_0/consumer/db_connection/config.json")
     if err != nil {
         fmt.Println("Error opening config file:", err)
         return nil, err 
