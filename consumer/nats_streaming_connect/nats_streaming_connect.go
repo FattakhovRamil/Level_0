@@ -15,14 +15,14 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-func СonnectingNats(db *sql.DB, c *memcache.Cache) {
+func СonnectingNats(db *sql.DB, c *memcache.Cache) error {
 	fmt.Println("Установка соединения с сервером NATS Streaming")
 	nc, err := nats.Connect(nats.DefaultURL)
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 	defer nc.Close()
-	fmt.Println("Установка соединения с сервером NATS Streaming - успешно")
 	var order Order
 	subscription, err := nc.Subscribe("test.subject", func(msg *nats.Msg) {
 		fmt.Println("Установка соединения с сервером NATS Streaming - успешно")
@@ -31,12 +31,14 @@ func СonnectingNats(db *sql.DB, c *memcache.Cache) {
 		err = json.Unmarshal(msg.Data, &order)
 		if err != nil {
 			log.Fatalf("Ошибка парсинга JSON: %v", err)
+
 		}
 
 		// Отправка заказа в базу данных
 		err := InsertOrder(db, order, c)
 		if err != nil {
 			log.Fatalf("Ошибка записи заказа в базу данных: %v", err)
+			return
 		}
 
 	})
@@ -45,6 +47,7 @@ func СonnectingNats(db *sql.DB, c *memcache.Cache) {
 		log.Fatal(err)
 	}
 	defer subscription.Unsubscribe()
+	select {}
 	//go printCachePeriodically(c, time.Second*15)
 }
 

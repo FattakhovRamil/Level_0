@@ -26,14 +26,22 @@ func main() {
 	cache.Input(db)
 
 	// 3) Подключение к NATS Streaming серверу
-	go nats_streaming_connect.СonnectingNats(db, cache)
-
+	
+	go func() {
+	 err:= nats_streaming_connect.СonnectingNats(db, cache)
+	 if err != nil {
+		log.Fatalf("Ошибка при подключении к NATS: %v", err)
+	 }
+	}()
 	log.Println("Consumer запущен. Ожидание сообщений...")
 
 	// 4) Запуск сервера
-
-	server.ServerStart(cache)
-
+	go func() {
+	 err = server.ServerStart(cache)
+	 	 if err != nil {
+		log.Fatalf("Ошибка при подключении к NATS: %v", err)
+	 }
+	} ()
 	// Ожидание сигнала для завершения работы приложения
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, syscall.SIGINT, syscall.SIGTERM)
